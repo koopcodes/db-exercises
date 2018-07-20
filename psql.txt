@@ -1,0 +1,5 @@
+createdb -U postgres -w hogwarts
+psql hogwarts postgres
+CREATE TABLE professor (id integer, name text, department_id integer);
+COPY professor FROM 'C:\PostgreSQL\hogwarts\hogwarts-professor.csv' delimiter ',' csv;
+SELECT * FROM professor;
