@@ -184,7 +184,7 @@ idOfChain  integer
 INSERT INTO emails (id, subject, sender, recipients, body, timestamp, read, idOfChain) VALUES
 (001, 'Hello world', 'Mrs. Koop', 'Koop', 'Hey, how’s it going?', TIMESTAMP '2018-04-13 14:36:00', TRUE, 1001),
 (002, 'Hello world', 'Koop', 'Mrs. Koop', 'Fine.', TIMESTAMP '2018-04-13 14:40:00', TRUE, 1001)
-(003, 'I’m hungry', 'Koop, 'Mama Koop', 'What are we doing for lunch?', TIMESTAMP '2018-04-13 19:45:00', TRUE, 2001);
+(003, 'I’m hungry', 'Koop', 'Mama Koop', 'What are we doing for lunch?', TIMESTAMP '2018-04-13 19:45:00', TRUE, 2001);
 ```
 
 - You deleted one of the emails, so write a command to remove the row from the inbox table.
