@@ -131,27 +131,10 @@ ORDER BY holds.rank ASC;
 ```
 - List all of the library patrons. If they have one or more books checked out, list the books with the patrons
 ```
-SELECT patrons.name, books.title
+SELECT patrons.name,
+MAX((CASE WHEN books.title IN (SELECT title FROM books WHERE transactions.checked_in_date IS NULL) THEN books.title ELSE NULL END))
 FROM patrons
-LEFT JOIN transactions
-ON patrons.id = transactions.patron_id
-INNER JOIN books
-ON books.isbn = transactions.isbn
-WHERE transactions.checked_in_date IS NULL
+INNER JOIN transactions ON transactions.patron_id = patrons.id
+INNER JOIN books ON books.isbn = transactions.isbn
+GROUP BY patrons.name;
 ```
-```
-SELECT patrons.name, books.title
-FROM transactions
-JOIN patrons ON patrons.id = transactions.patron_id
-JOIN books ON books.isbn = transactions.isbn
-ORDER BY patrons.name ASC;
-```
-
-SELECT patrons.name, books.title
-FROM transactions
-JOIN patrons ON patrons.id = transactions.patron_id
-JOIN books ON books.isbn = transactions.isbn
-WHERE books.title = ANY (SELECT transactions.id
-                  FROM transactions
-                  WHERE transactions.checked_in_date IS NULL)
-ORDER BY patrons.name ASC;
