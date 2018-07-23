@@ -43,11 +43,11 @@ The technique of creating short variable names, usually a single letter, to repl
 
 5. Change this query so that you are using aliasing:
 ```
-SELECT professor.name, compensation.salary,
-compensation.vacation_days
+SELECT p.name, c.salary,
+c.vacation_days
 FROM professor AS p
 JOIN compensation AS c
-ON professor.id = compensation.professor_id;
+ON p.id = c.professor_id;
 ```
 
 6. Why would you use a NATURAL JOIN? Give a real-world example
@@ -65,6 +65,32 @@ ON shifts.id = scheduled_shifts.shift_id
 ORDER BY shifts.date ASC,
          shifts.start_time ASC;
 ```
+### Results
+| name | date | start_time | end_time |
+|------|------|------------|----------|
+| Padma Patil | 1998-03-09 | 08:00:00 | 12:00:00 |
+| Hermione Granger | 1998-03-09 | 08:00:00 | 16:00:00 |
+| Luna Lovegood | 1998-03-09 | 12:00:00 | 16:00:00 |
+| Padma Patil | 1998-03-09 | 12:00:00 | 20:00:00|
+|Dean Thomas | 1998-03-09 | 16:00:00 | 20:00:00
+|Padma Patil | 1998-03-10 | 08:00:00 | 12:00:00
+|Hermione Granger | 1998-03-10 | 08:00:00 | 16:00:00
+|Ronald Weasley | 1998-03-10 | 12:00:00 | 16:00:00
+|Padma Patil | 1998-03-10 | 12:00:00 | 20:00:00
+|Dean Thomas | 1998-03-10 | 16:00:00 | 20:00:00
+|Hermione Granger | 1998-03-11 | 08:00:00 | 16:00:00
+|Padma Patil | 1998-03-11 | 08:00:00 | 12:00:00
+|Luna Lovegood | 1998-03-11 | 12:00:00 | 16:00:00
+|Padma Patil | 1998-03-11 | 12:00:00 | 20:00:00
+|Draco Malfoy | 1998-03-11 | 16:00:00 | 20:00:00
+|Hermione Granger | 1998-03-12 | 08:00:00 | 16:00:00
+|Cho Chang | 1998-03-12 | 12:00:00 | 20:00:00
+|Ronald Weasley | 1998-03-12 | 12:00:00 | 16:00:00
+|Draco Malfoy | 1998-03-12 | 16:00:00 | 20:00:00
+|Hermione Granger | 1998-03-13 | 08:00:00 | 16:00:00
+|Cho Chang | 1998-03-13 | 12:00:00 | 20:00:00
+|Luna Lovegood | 1998-03-13 | 12:00:00 | 16:00:00
+|Draco Malfoy | 1998-03-13 | 16:00:00 | 20:00:00
 
 8. Using [this Adoption schema and data](https://www.db-fiddle.com/f/tpodLv3A43VL4gHqohqx2o/0), please write queries to retrieve the following information and include the results:
 - Create a list of all volunteers. If the volunteer is fostering a dog, include each dog as well.
@@ -74,6 +100,15 @@ FROM volunteers
 LEFT OUTER JOIN dogs
 ON dogs.id = volunteers.foster_dog_id;
 ```
+### Results
+|first_name|last_name|name|
+|----------|---------|----|
+| Rubeus | Hagrid | Munchkin|
+| Marjorie | Dursley | Marmaduke |
+| Sirius | Black | null |
+| Remus | Lupin | null |
+| Albus | Dumbledore | null |
+
 
 - The cat's name, adopter's name, and adopted date for each cat adopted within the past month to be displayed as part of the "Happy Tail" social media promotion which posts recent successful adoptions.
 ```
@@ -87,6 +122,12 @@ GROUP BY cats.name, adopters.first_name, adopters.last_name, cat_adoptions.date
 HAVING cat_adoptions.date >= current_date - 30;
 ```
 
+### Results
+| name | first_name | last_name | date |
+|------|------------|-----------|------|
+|Victoire | Argus | Filch | 2018-07-08T00:00:00.000Z |
+| Mushi | Arabella | Figg | 2018-07-03T00:00:00.000Z |
+
 - Create a list of adopters who have not yet chosen a dog to adopt.
 ```
 SELECT first_name, last_name, dogs.name
@@ -95,6 +136,15 @@ LEFT JOIN dogs
 ON dogs.id = volunteers.foster_dog_id
 WHERE volunteers.foster_dog_id IS NULL;
 ```
+
+### Results
+| first_name | last_name | name |
+|------------|-----------|------|
+| Sirius | Black | null |
+| Remus | Lupin | null |
+| Albus | Dumbledore | null |
+
+
 - Lists of all cats and all dogs who have not been adopted.
 ```
 SELECT name
@@ -110,6 +160,23 @@ ON cats.id = cat_adoptions.cat_id
 WHERE cat_adoptions.cat_id IS NULL;
 ```
 
+### Results
+Query #1 Execution time: 1ms
+| name |
+|------|
+| Boujee |
+| Munchkin |
+|Marley|
+|Lassie|
+|Marmaduke|
+
+Query #2 Execution time: 1ms
+| name |
+|------|
+| Seashell|
+|Nala|
+
+
 - The name of the person who adopted Rosco.
 ```
 SELECT first_name, last_name
@@ -118,6 +185,12 @@ INNER JOIN dog_adoptions
 ON adopters.id = dog_adoptions.adopter_id
 WHERE dog_adoptions.dog_id = 10007;
 ```
+
+### Results
+| first_name | last_name |
+|------------|-----------|
+|Argus|Filch|
+
 9. Using [this Library schema and data](https://www.db-fiddle.com/f/j4EGoWzHWDBVtiYzB9ygC4/0), write queries applying the following scenarios and include the results:
 
 - To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making"
@@ -129,6 +202,13 @@ ON holds.patron_id = patrons.id
 WHERE holds.isbn = '9136884926'
 ORDER BY holds.rank ASC;
 ```
+
+### Results
+| name | rank |
+|------|------|
+|Terry Boot | 1 |
+| Cedric Diggory | 2 |
+
 - List all of the library patrons. If they have one or more books checked out, list the books with the patrons
 ```
 SELECT patrons.name,
@@ -138,3 +218,12 @@ INNER JOIN transactions ON transactions.patron_id = patrons.id
 INNER JOIN books ON books.isbn = transactions.isbn
 GROUP BY patrons.name;
 ```
+
+### Results
+| name | max |
+|------|-----|
+| Cedric Diggory | Fantastic Beasts and Where to Find Them |
+| Cho Chang | null |
+| Hermione Granger | null |
+| Padma Patil | null |
+| Terry Boot | Advanced Potion-Making |
