@@ -4,8 +4,7 @@
 ## Checkpoint 7 - JOIN Statements
 
 #Exercises
-Submit your answers to the following questions.
-NOTE: Real-world examples must be your own and not based on the text or previous assignments.
+Submit your answers to the following questions and NOTE: Real-world examples must be your own and not based on the text or previous assignments.
 
 1. How do you find related data held in two separate data tables?
 > Use a `JOIN` clause, combining two tables into one
